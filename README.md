@@ -37,3 +37,25 @@ Java Interview Question with Answers and Solution with Code
 > - ConcurrentHashMap: Multi-threaded applications with concurrent access
 
 </details>
+
+<details>
+<summary>3. Can we Do Multiple sorting using comparable ? >> No - Only with Comparator</summary>
+ 
+```java
+  // Sort by Name (ascending), then by Grade (descending)
+  System.out.println("\nSorted by Name (ASC) then Grade (DESC):");
+  students.sort(Comparator
+      .comparing(Student::getName)
+      .thenComparing(Comparator.comparing(Student::getGrade).reversed())
+  );
+  students.forEach(System.out::println);
+  
+  // Sort by Age (ascending), then by Name (ascending)
+  System.out.println("\nSorted by Age (ASC) then Name (ASC):");
+  students.sort(Comparator
+      .comparing(Student::getAge)
+      .thenComparing(Student::getName)
+  );
+  students.forEach(System.out::println);
+  ```
+  </details>
