@@ -64,23 +64,8 @@ Java Interview Question with Answers and Solution with Code
 <summary>4. How HashSet Works in Java</summary>
 
 > **HashSet** is a collection that implements the Set interface and uses a **HashMap** internally to store elements. It doesn't allow duplicate elements and provides constant-time performance for basic operations.
-
-## Internal Working
-
-### 1. **Underlying Data Structure**
-> | Feature | Description |
-> |---------|-------------|
-> | Backing Storage | HashMap internally |
-> | Element Storage | Stored as Keys in HashMap |
-> | Value Storage | Dummy Object as Value |
-
-```java
-// Internal implementation
-private transient HashMap<E,Object> map;
-private static final Object PRESENT = new Object();
-```
-
-### 2. **Add Operation Flow**
+>
+> ### 2. **Add Operation Flow**
 > | Step | Description |
 > |------|-------------|
 > | 1 | Calculate hashCode() of object |
@@ -88,16 +73,9 @@ private static final Object PRESENT = new Object();
 > | 3 | Check if bucket is empty |
 > | 4 | If not empty, use equals() to compare |
 > | 5 | Add if unique, reject if duplicate |
-
-```java
-// How add() method works internally
-public boolean add(E e) {
-    return map.put(e, PRESENT) == null;
-}
-```
-
-## Key Characteristics
-
+>
+> ## Key Characteristics
+>
 > | Feature | HashSet |
 > |---------|---------|
 > | Duplicates | ❌ Not allowed |
@@ -105,70 +83,42 @@ public boolean add(E e) {
 > | Order | ❌ No guaranteed order |
 > | Thread Safety | ❌ Not thread-safe |
 > | Performance | O(1) average case |
-
-## Complete Example
-
-```java
-import java.util.HashSet;
-
-public class HashSetExample {
-    public static void main(String[] args) {
-        // Create HashSet
-        HashSet<String> fruits = new HashSet<>();
-        
-        // Add elements
-        fruits.add("Apple");
-        fruits.add("Banana");
-        fruits.add("Orange");
-        fruits.add("Apple"); // Duplicate - will be ignored
-        
-        // Display
-        System.out.println("HashSet: " + fruits);
-        
-        // Check existence
-        System.out.println("Contains Apple: " + fruits.contains("Apple"));
-        
-        // Remove element
-        fruits.remove("Banana");
-        System.out.println("After removal: " + fruits);
-        
-        // Iterate
-        for (String fruit : fruits) {
-            System.out.println("Fruit: " + fruit);
-        }
-    }
-}
-```
-
-## Performance Characteristics
-
-> | Operation | Time Complexity |
-> |-----------|-----------------|
-> | add() | O(1) |
-> | remove() | O(1) |
-> | contains() | O(1) |
-> | size() | O(1) |
-> | iteration | O(n) |
-
-## Important Methods
-
-```java
-HashSet<String> set = new HashSet<>();
-
-// Basic operations
-set.add("Element");          // Add element
-set.contains("Element");     // Check existence  
-set.remove("Element");       // Remove element
-set.size();                 // Get size
-set.clear();                // Clear all elements
-
-// Bulk operations
-set.addAll(anotherSet);     // Union
-set.retainAll(anotherSet);  // Intersection
-```
-
-## When to Use
-
+>
+> ## Complete Example
+> 
+> ```java
+> import java.util.HashSet;
+> 
+> public class HashSetExample {
+>     public static void main(String[] args) {
+>         // Create HashSet
+>         HashSet<String> fruits = new HashSet<>();
+>         
+>         // Add elements
+>         fruits.add("Apple");
+>         fruits.add("Banana");
+>         fruits.add("Orange");
+>         fruits.add("Apple"); // Duplicate - will be ignored
+>         
+>         // Display
+>         System.out.println("HashSet: " + fruits);
+>         
+>         // Check existence
+>         System.out.println("Contains Apple: " + fruits.contains("Apple"));
+>         
+>         // Remove element
+>         fruits.remove("Banana");
+>         System.out.println("After removal: " + fruits);
+>         
+>         // Iterate
+>         for (String fruit : fruits) {
+>             System.out.println("Fruit: " + fruit);
+>         }
+>     }
+> }
+> ```
+> ## When to Use
+>
 > ✅ **Use HashSet when:**
 > - Need unique elements only
 > - Don't care about order
