@@ -12,9 +12,28 @@ Java Interview Question with Answers and Solution with Code
 <details>
 <summary>2.  Hashmap vs concurrent hash map</summary>
 
-```    
-HashMap: Not thread-safe, fast for single-threaded apps
+ 
+> HashMap: Not thread-safe, fast for single-threaded apps
+> 
+> ConcurrentHashMap: Thread-safe, better for multi-threaded environments
+> 
+> Key Differences:
+> | Feature | HashMap | ConcurrentHashMap |
+> |---------|---------|-------------------|
+> | Thread Safety | ❌ Not thread-safe | ✅ Thread-safe |
+> | Null Support | ✅ Allows null keys/values | ❌ No null keys/values |
+> | Performance | Fast single-threaded | Optimized multi-threaded |
+> | Locking Mechanism | No internal locking | Bucket-level locking |
+> | Iterator Behavior | Fail-fast | Weakly consistent |
+> | Concurrent Access | Data corruption risk | Safe concurrent access |
+> | Memory Consistency | No guarantees | Happens-before guarantees |
+> | Use Case | Single-threaded apps | Multi-threaded apps |
+> | Synchronization | Requires external sync | Built-in synchronization |
+> | Java Version | Since 1.2 | Since 1.5 |
+> | Internal Structure | Array + LinkedList/Tree | Segments/Buckets |
+> 
+> When to Use:
+> - HashMap: Single-threaded applications
+> - ConcurrentHashMap: Multi-threaded applications with concurrent access
 
-ConcurrentHashMap: Thread-safe, better for multi-threaded environments
-```
 </details>
