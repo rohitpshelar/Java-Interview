@@ -1,6 +1,7 @@
 # Java-Interview
 Java Interview Question with Answers and Solution with Code
 
+## JAVA
 <details>
 <summary>1. Factory design pattern in Java</summary>
 
@@ -39,8 +40,9 @@ Java Interview Question with Answers and Solution with Code
 </details>
 
 <details>
-<summary>3. Can we Do Multiple sorting using comparable ? >> No - Only with Comparator</summary>
- 
+<summary>3. Can we Do Multiple sorting using comparable ?</summary>
+
+No - Only with Comparator
 ```java
   // Sort by Name (ascending), then by Grade (descending)
   System.out.println("\nSorted by Name (ASC) then Grade (DESC):");
@@ -408,4 +410,250 @@ Java Interview Question with Answers and Solution with Code
 > | **Resource Management** | Controls maximum concurrent threads |
 > | **Task Queueing** | Handles task submission spikes |
 > | **Lifecycle Management** | Provides clean startup/shutdown |
-> | **Error Handling** | Better exception handling with Futures |</details>
+> | **Error Handling** | Better exception handling with Futures |
+</details>
+
+## Spring
+
+<details>
+<summary>1. @Qualifier Annotation in Spring</summary>
+
+> **@Qualifier** is a Spring annotation used to resolve ambiguity when multiple beans of the same type are available for dependency injection.
+>
+> ## Problem It Solves
+>
+> > When multiple beans implement the same interface, Spring doesn't know which one to inject:
+>
+> ```java
+> @Component
+> class SMSService implements MessageService {
+>     public void send(String message) {
+>         System.out.println("Sending SMS: " + message);
+>     }
+> }
+> 
+> @Component
+> class EmailService implements MessageService {
+>     public void send(String message) {
+>         System.out.println("Sending Email: " + message);
+>     }
+> }
+> 
+> @Service
+> class NotificationService {
+>     @Autowired
+>     private MessageService messageService; // ❌ Which one to inject? SMSService or EmailService?
+> }
+> ```
+>
+> ## Solution with @Qualifier
+>
+> ### Method 1: Using @Qualifier with @Component
+> ```java
+> @Component
+> @Qualifier("sms")
+> class SMSService implements MessageService {
+>     public void send(String message) {
+>         System.out.println("Sending SMS: " + message);
+>     }
+> }
+> 
+> @Component
+> @Qualifier("email")
+> class EmailService implements MessageService {
+>     public void send(String message) {
+>         System.out.println("Sending Email: " + message);
+>     }
+> }
+> 
+> @Service
+> class NotificationService {
+>     @Autowired
+>     @Qualifier("sms")  // ✅ Explicitly specifies SMSService
+>     private MessageService messageService;
+> }
+> ```
+>
+> ### Method 2: Using @Qualifier with Constructor Injection
+> ```java
+> @Service
+> class NotificationService {
+>     private final MessageService messageService;
+>     
+>     @Autowired
+>     public NotificationService(@Qualifier("email") MessageService messageService) {
+>         this.messageService = messageService;  // ✅ EmailService will be injected
+>     }
+> }
+> ```
+>
+> ### Method 3: Using Custom Qualifier Annotations
+> ```java
+> @Qualifier
+> @Retention(RetentionPolicy.RUNTIME)
+> public @interface SMS {}
+> 
+> @Qualifier
+> @Retention(RetentionPolicy.RUNTIME)
+> public @interface Email {}
+> 
+> @Component
+> @SMS
+> class SMSService implements MessageService {
+>     // implementation
+> }
+> 
+> @Component
+> @Email
+> class EmailService implements MessageService {
+>     // implementation
+> }
+> 
+> @Service
+> class NotificationService {
+>     @Autowired
+>     @SMS  // ✅ Cleaner approach with custom qualifier
+>     private MessageService messageService;
+> }
+> ```
+>
+> ## Key Points
+>
+> | Aspect | Description |
+> |--------|-------------|
+> | **Purpose** | Resolves bean ambiguity during dependency injection |
+> | **Usage** | Used with @Autowired to specify which bean to inject |
+> | **Alternatives** | @Primary annotation, bean names |
+> | **Best Practice** | Use with constructor injection for better testability |
+>
+> ## When to Use @Qualifier
+>
+> ✅ **Use @Qualifier when:**
+> - Multiple beans implement the same interface
+> - You need explicit control over which bean gets injected
+> - Different beans serve different purposes in different contexts
+>
+> ❌ **Don't use when:**
+> - Only one bean of a type exists
+> - Using @Primary makes more sense for default bean selection
+</details>
+
+<details>
+<summary>2. IOC Container in Spring</summary>
+
+> **IOC (Inversion of Control) Container** is the core engine of Spring Framework that manages the complete lifecycle of Spring beans - from creation to destruction.
+>
+> ## What is IOC Container?
+>
+> > Instead of you creating objects manually, the IOC container creates and manages them for you:
+>
+> ```java
+> // Without IOC Container (Traditional)
+> UserService userService = new UserService();
+> UserRepository userRepository = new UserRepository();
+> userService.setRepository(userRepository);
+> 
+> // With IOC Container (Spring)
+> @Component
+> class UserService {
+>     @Autowired
+>     private UserRepository userRepository;
+>     // Spring automatically creates and injects dependency
+> }
+> ```
+>
+> ## Key Responsibilities
+>
+> | Responsibility | Description |
+> |----------------|-------------|
+> | **Bean Creation** | Instantiates beans using reflection |
+> | **Dependency Injection** | Injects dependencies automatically |
+> | **Lifecycle Management** | Manages bean lifecycle (init/destroy) |
+> | **Configuration** | Applies configurations and profiles |
+> | **Scope Management** | Manages singleton, prototype scopes |
+>
+> ## Types of IOC Containers
+>
+> ### 1. BeanFactory (Basic)
+> ```java
+> // Legacy - lighter container
+> Resource resource = new ClassPathResource("beans.xml");
+> BeanFactory factory = new XmlBeanFactory(resource);
+> MyBean bean = (MyBean) factory.getBean("myBean");
+> ```
+>
+> ### 2. ApplicationContext (Advanced - Most Used)
+> ```java
+> // Modern - enterprise features
+> ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+> // OR
+> ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+> MyService service = context.getBean(MyService.class);
+> ```
+>
+> ## How It Works
+>
+> ### Step-by-Step Process:
+> 1. **Scan** - Scans for @Component, @Service, @Repository annotations
+> 2. **Create** - Instantiates beans using default/no-arg constructor
+> 3. **Configure** - Applies @Value, @Autowired configurations
+> 4. **Inject** - Resolves and injects dependencies
+> 5. **Initialize** - Calls @PostConstruct methods
+> 6. **Ready** - Bean is ready for use
+> 7. **Destroy** - Calls @PreDestroy methods during shutdown
+>
+> ## Example
+>
+> ```java
+> // Configuration
+> @Configuration
+> @ComponentScan("com.example")
+> public class AppConfig {
+> }
+> 
+> // Bean classes
+> @Service
+> class UserService {
+>     private final UserRepository userRepository;
+>     
+>     @Autowired
+>     public UserService(UserRepository userRepository) {
+>         this.userRepository = userRepository;
+>     }
+> }
+> 
+> @Repository  
+> class UserRepository {
+>     // Data access code
+> }
+> 
+> // Usage
+> public class Main {
+>     public static void main(String[] args) {
+>         ApplicationContext context = 
+>             new AnnotationConfigApplicationContext(AppConfig.class);
+>         
+>         UserService userService = context.getBean(UserService.class);
+>         userService.processUser(); // IOC container manages everything!
+>     }
+> }
+> ```
+>
+> ## Benefits
+>
+> ✅ **Loose Coupling** - Components don't create dependencies  
+> ✅ **Easy Testing** - Can easily mock dependencies  
+> ✅ **Configuration Management** - Centralized configuration  
+> ✅ **Lifecycle Management** - Automatic initialization and destruction  
+> ✅ **AOP Support** - Easy aspect-oriented programming
+>
+> ## Key Points
+>
+> > - **IOC** = Inversion of Control (Framework controls object creation)
+> > - **DI** = Dependency Injection (Method of achieving IOC)
+> > - **Container** = Runtime environment that manages beans
+> > - **ApplicationContext** is the most commonly used IOC container
+</details>
+
+## Hibernate
+

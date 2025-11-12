@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-class Result {
+class ApiResponseParser {
 
     public static void main(String[] args) {
         List<String> shows = showsInProduction(-1, -1);
