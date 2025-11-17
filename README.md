@@ -620,7 +620,7 @@ No - Only with Comparator
 >     public UserService(UserRepository userRepository) {
 >         this.userRepository = userRepository;
 >     }
-> }
+> } 
 > 
 > @Repository  
 > class UserRepository {
