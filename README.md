@@ -41,6 +41,19 @@ personModels.stream()
 > Ref : [ModelToDto.java](core/src/main/java/com/rs/Stream/ModelToDto.java)
 </details>
 
+<details>
+<summary>4. Object Find 3rd Highest By Salary Than Name </summary>
+
+```java
+employeeList.stream()
+        .sorted(Comparator.comparing(Employee::salary).reversed().thenComparing(Employee::name))
+        .skip(2)
+        .findFirst()
+        .ifPresent(e -> System.out.println(e.name()));
+```
+> Ref : [Stream_Object_Find_By_Salary.java](core/src/main/java/com/rs/Stream/Stream_Object_Find_By_Salary.java)
+</details>
+
 
 ### - Questions
 

@@ -4,7 +4,26 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+record Employee (Integer id, String name, Integer salary) implements Comparable<Employee>{
+    @Override
+    public int compareTo(Employee o) {
+        int salaryCompare =  this.salary.compareTo(o.salary);
+        int nameCompare = this.name.compareTo(o.name);
+        return (salaryCompare == 0) ? nameCompare : salaryCompare;
+    }
+}
+
 public class Stream_Object_Find_By_Salary {
+
+    private static List<Employee> getListOfEmployee() {
+
+        List<Employee> employeeList = new ArrayList<Employee>();
+        employeeList.add(new Employee(1, "Rohit", 90000));
+        employeeList.add(new Employee(2, "Don", 1000));
+        employeeList.add(new Employee(3, "Samit", 110000));
+        employeeList.add(new Employee(4, "Janu", 50000));
+        return employeeList;
+    }
 
     public static void main(String[] args) {
 
@@ -16,67 +35,15 @@ public class Stream_Object_Find_By_Salary {
                 .sorted(Comparator.reverseOrder())
                 .skip(2)
                 .limit(1)
-                .forEach(e -> System.out.println(e.name));
+                .forEach(e -> System.out.println(e.name()));
 
 //        # findEmpByThirdHighestSalary - Approach 2 - Using Comparator
         System.out.println("Using Comparator");
         employeeList.stream()
-                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                .sorted(Comparator.comparing(Employee::salary).reversed().thenComparing(Employee::name))
                 .skip(2)
                 .findFirst()
-                .ifPresent(e -> System.out.println(e.getName()));
+                .ifPresent(e -> System.out.println(e.name()));
 
-    }
-
-    private static List<Employee> getListOfEmployee() {
-
-        List<Employee> employeeList = new ArrayList<Employee>();
-        employeeList.add(new Employee(1, "Rohit", 90000));
-        employeeList.add(new Employee(2, "Don", 1000));
-        employeeList.add(new Employee(3, "Samit", 110000));
-        employeeList.add(new Employee(4, "Janu", 50000));
-        return employeeList;
-    }
-}
-
-class Employee implements Comparable<Employee> {
-    Integer id;
-    String name;
-    Integer salary;
-
-    public Employee(Integer id, String name, Integer salary) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.salary = salary;
-    }
-
-    @Override
-    public int compareTo(Employee o) {
-        return this.salary.compareTo(o.salary);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Integer salary) {
-        this.salary = salary;
     }
 }
