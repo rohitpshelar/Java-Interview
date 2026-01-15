@@ -2,6 +2,48 @@
 Java Interview Question with Answers and Solution with Code
 
 ## JAVA
+
+### - STREAM
+
+<details>
+<summary>1. Find Palindromes In String</summary>
+
+```java
+IntStream.range(0, s.length() / 2)
+                .allMatch(i -> s.charAt(i) == s.charAt(s.length() - i - 1));
+```
+> Ref : [FindPalindromesFromString.java](core/src/main/java/com/rs/Stream/FindPalindromesFromString.java)
+
+</details>
+
+<details>
+<summary>2. Generate -  Even, Odd, Unique... Numbers</summary>
+
+> Ref : [GenerateNumbers.java](core/src/main/java/com/rs/Stream/GenerateNumbers.java)
+> 
+</details>
+
+<details>
+<summary>3. Model to DTO</summary>
+
+```java
+personModels.stream()
+        .collect(Collectors.groupingBy(PersonModel::department))
+        .entrySet().stream()
+        .map(entry -> new ResponseDTO(
+            entry.getKey(),
+            entry.getValue().stream()
+                .map(pm -> new PersonDTO(pm.firstName() + " " + pm.lastName(), pm.salary()))
+                .toList()
+        ))
+        .toList();
+```
+> Ref : [ModelToDto.java](core/src/main/java/com/rs/Stream/ModelToDto.java)
+</details>
+
+
+### - Questions
+
 <details>
 <summary>1. Factory design pattern in Java</summary>
 
