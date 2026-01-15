@@ -18,7 +18,7 @@ public class StreamPeek {
                 .peek(p -> System.out.println("3. After uppercase: " + p))
                 .sorted()
                 .peek(p -> System.out.println("4. After sorting: " + p))
-                .collect(Collectors.toList());
+                .toList();
 
         System.out.println("Final result: " + filteredProducts);
     }
