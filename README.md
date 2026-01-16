@@ -807,5 +807,5 @@ dependent - id, name, DOB, gender
     WHERE DATEDIFF(YEAR, d.DOB, GETDATE()) < 10;
 ```
 
-
+</details>
 
