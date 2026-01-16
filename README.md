@@ -710,5 +710,102 @@ No - Only with Comparator
 > > - **ApplicationContext** is the most commonly used IOC container
 </details>
 
-## Hibernate
+## SQL
+
+<details>
+<summary>1. Fetching orders placed within the last month using SQL</summary>
+
+```sql
+    -- MySQL/MariaDB
+    SELECT * FROM orders 
+    WHERE date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) 
+    AND date <= CURDATE();
+    
+    -- PostgreSQL
+    SELECT * FROM orders
+    WHERE date >= CURRENT_DATE - INTERVAL '1 month'
+    AND date <= CURRENT_DATE;
+    
+    -- SQL Server
+    SELECT * FROM orders
+    WHERE date >= DATEADD(month, -1, GETDATE())
+    AND date <= GETDATE();
+```
+</details>
+
+<details>
+<summary>2. Find the number of cases where emails have attachments </summary>   
+
+The Schema:
+case: caseld, emailld (email ID)
+
+email: emailld, fileld (file ID)
+
+file: emailid, fileld (file ID, email ID it belongs to)
+
+```sql
+    -- Count of cases that have emails with attachments
+    SELECT COUNT(DISTINCT c.caseld) as cases_with_attachments
+    FROM case c
+    INNER JOIN email e ON c.emailld = e.emailld
+    INNER JOIN file f ON e.fileld = f.fileld
+    WHERE f.emailid = e.emailld;
+    
+    -- Alternative (simpler if file table has emailid)
+    SELECT COUNT(DISTINCT c.caseld) as cases_with_attachments
+    FROM case c
+    INNER JOIN file f ON c.emailld = f.emailid
+    WHERE f.fileld IS NOT NULL;
+    
+    -- Count cases where their email has at least one file attachment ( PERFORMANCE )
+    SELECT COUNT(DISTINCT c.caseld) as cases_with_attachments
+    FROM case c
+    WHERE EXISTS (
+    SELECT 1 
+    FROM email e 
+    INNER JOIN file f ON e.fileld = f.fileld
+    WHERE e.emailld = c.emailld
+    AND f.emailid = e.emailld
+    );
+    
+    -- Count attachments per case
+    SELECT 
+    c.caseld,
+    COUNT(DISTINCT f.fileld) as attachment_count
+    FROM case c
+    LEFT JOIN email e ON c.emailld = e.emailld
+    LEFT JOIN file f ON e.fileld = f.fileld AND f.emailid = e.emailld
+    GROUP BY c.caseld
+    HAVING COUNT(DISTINCT f.fileld) > 0;
+```
+</details>
+
+<details>
+<summary>3. Employees whose dependent's age is less than 10 years</summary>
+
+employee - id, name, dependent
+
+dependent - id, name, DOB, gender
+
+```sql
+    -- MySQL/PostgreSQL/SQL Server
+    SELECT DISTINCT e.* 
+    FROM employee e
+    INNER JOIN dependent d ON e.id = d.employee_id
+    WHERE TIMESTAMPDIFF(YEAR, d.DOB, CURDATE()) < 10;
+    
+    -- PostgreSQL alternative
+    SELECT DISTINCT e.* 
+    FROM employee e
+    INNER JOIN dependent d ON e.id = d.employee_id
+    WHERE EXTRACT(YEAR FROM AGE(CURRENT_DATE, d.DOB)) < 10;
+    
+    -- SQL Server alternative
+    SELECT DISTINCT e.* 
+    FROM employee e
+    INNER JOIN dependent d ON e.id = d.employee_id
+    WHERE DATEDIFF(YEAR, d.DOB, GETDATE()) < 10;
+```
+
+
 
