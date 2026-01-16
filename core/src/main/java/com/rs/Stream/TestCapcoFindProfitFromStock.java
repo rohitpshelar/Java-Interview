@@ -97,7 +97,7 @@ public class TestCapcoFindProfitFromStock {
         });
 
         // combine using IntStream
-```````1`2qwsaaaddds frt            return IntStream.range(0, n)
+         return IntStream.range(0, n)
                 .map(i -> left[i] + right[i])
                 .max()
                 .orElse(0);
