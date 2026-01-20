@@ -69,6 +69,8 @@ stringList.forEach(st -> {
 > Ref : [Count_Char_From_List_Of_String.java](core/src/main/java/com/rs/Stream/Count_Char_From_List_Of_String.java)
 
 </details>
+
+<details>
 <summary>6. Find Customer Category from Transaction List which is present in Customer List</summary>
 
 ```java
@@ -86,7 +88,7 @@ customers.forEach(c -> {
 ```
 > Ref : [Find_Customer_Category_from_Transaction_List_which_is_present_in_Customer_List.java](core/src/main/java/com/rs/Stream/Find_Customer_Category_from_Transaction_List_which_is_present_in_Customer_List.java)
 
-<details>
+</details>
 
 
 ### - Questions
