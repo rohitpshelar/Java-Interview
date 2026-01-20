@@ -51,20 +51,20 @@ public class FindPalindromesFromString {
     public static void main(String[] args) {
 
         String input = "aahhhhxyxtptndyyhb";
-        System.out.println(isPalindrome("abba"));
-//        new FindPalindromesFromString().filterNewWay(input,3);
-//
-//        // Find all palindromic substrings
-//        List<String> palindromes = findAllPalindromicSubstrings(input);
-//        System.out.println("All palindromic substrings: " + palindromes);
-//
-//        // Find distinct palindromic substrings
-//        List<String> distinctPalindromes = findDistinctPalindromicSubstrings(input);
-//        System.out.println("Distinct palindromic substrings: " + distinctPalindromes);
-//
-//        // Group by length
-//        Map<Integer, List<String>> byLength = groupPalindromesByLength(input);
-//        System.out.println("Palindromes grouped by length: " + byLength);
+        System.out.println(isPalindrome(input));
+        new FindPalindromesFromString().filterNewWay(input,3);
+
+        // Find all palindromic substrings
+        List<String> palindromes = findAllPalindromicSubstrings(input);
+        System.out.println("All palindromic substrings: " + palindromes);
+
+        // Find distinct palindromic substrings
+        List<String> distinctPalindromes = findDistinctPalindromicSubstrings(input);
+        System.out.println("Distinct palindromic substrings: " + distinctPalindromes);
+
+        // Group by length
+        Map<Integer, List<String>> byLength = groupPalindromesByLength(input);
+        System.out.println("Palindromes grouped by length: " + byLength);
     }
 
     public static List<String> findAllPalindromicSubstrings(String str) {
