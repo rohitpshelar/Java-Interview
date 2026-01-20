@@ -18,14 +18,11 @@ public class Find_Customer_Category_from_Transaction_List_which_is_present_in_Cu
                     .mapToDouble(Transaction::amount)
                     .sum();
 
-            String category;
-            if (totalAmount > 50000) {
-                category = "rich";
-            } else if (totalAmount >= 20000) {
-                category = "middle";
-            } else {
-                category = "poor";
-            }
+            String category = switch (totalAmount) {
+                case int n when n > 50000 -> "rich";
+                case int n when n >= 20000 -> "middle";
+                default -> "poor";
+            };
 
             System.out.println("Customer: " + c.name() + ", Total Amount: " + totalAmount + ", Category: " + category);
         });

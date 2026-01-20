@@ -54,6 +54,40 @@ employeeList.stream()
 > Ref : [Stream_Object_Find_By_Salary.java](core/src/main/java/com/rs/Stream/Stream_Object_Find_By_Salary.java)
 </details>
 
+<details>
+<summary>5. Count Char From List Of String </summary>
+
+```java
+stringList.forEach(st -> {
+    System.out.println(st);
+    Stream.of(st.split("")).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+            .forEach((k, v) -> System.out.println("Character: " + k + ", Count: " + v));
+
+});
+```
+
+> Ref : [Count_Char_From_List_Of_String.java](core/src/main/java/com/rs/Stream/Count_Char_From_List_Of_String.java)
+
+</details>
+<summary>6. Find Customer Category from Transaction List which is present in Customer List</summary>
+
+```java
+customers.forEach(c -> {
+    double totalAmount = c.txns().stream()
+            .mapToDouble(Transaction::amount)
+            .sum();
+    
+    String category = switch (totalAmount) {
+        case int n when n > 50000 -> "rich";
+        case int n when n >= 20000 -> "middle";
+        default -> "poor";
+    };
+});
+```
+> Ref : [Find_Customer_Category_from_Transaction_List_which_is_present_in_Customer_List.java](core/src/main/java/com/rs/Stream/Find_Customer_Category_from_Transaction_List_which_is_present_in_Customer_List.java)
+
+<details>
+
 
 ### - Questions
 
